@@ -3,24 +3,34 @@ using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
 
-public class Crocodile : Enemy
+public class Crocodile : Enemy , IShootable
 {
-    [SerializeField] private float attackRange;
+     float attackRange;
+
+    public float AttackRange { get { return attackRange; } set { attackRange = value; } }
     public Player player;
 
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private float bulletSpawnTime;
-    [SerializeField] private float bulletTimer;
+    [SerializeField] public GameObject Bullet { get; set; }
+    [SerializeField] public Transform SpawnPoint { get; set; }
+
+    [SerializeField] public float ReloadTime { get; set; }
+
+    [SerializeField] public float WaitTime { get; set; }
+
+
+    private void Start()
+    {
+        Init(30);
+    }
     private void Update()
     {
-        bulletTimer -= Time.deltaTime;
+        WaitTime -= Time.deltaTime;
 
         Behaviour();
 
-        if (bulletTimer < 0f)
+        if (WaitTime < 0f)
         {
-            bulletTimer = bulletSpawnTime;
+            WaitTime = ReloadTime;
         }
     }
     public override void Behaviour()
@@ -36,9 +46,11 @@ public class Crocodile : Enemy
 
     private void Shoot()
     {
-        if (bulletTimer <= 0)
+        if (WaitTime >= ReloadTime)
         {
-            Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+            anim.SetTrigger("Shoot");
+            GameObject obj = Instantiate(Bullet, SpawnPoint.position, Quaternion.identity);
+            WaitTime = 0f;
         }
         
     }
