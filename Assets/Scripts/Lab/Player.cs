@@ -2,30 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character , IShootable
+public class Player : Character, IShootable
 {
-    [SerializeField] public GameObject Bullet { get; set; }
-    [SerializeField] public Transform SpawnPoint { get; set; }
-
-    public float ReloadTime { get; set; }
-
-    public float WaitTime { get; set; }
+    [field: SerializeField] public GameObject Bullet { get; set; }
+    [field: SerializeField] public Transform BulletSpawnPoint { get; set; }
+    [field: SerializeField] public float BulletSpawnTime { get; set; }
+    [field: SerializeField] public float BulletTimer { get; set; }
 
     public void Shoot()
     {
-        if (Input.GetButtonDown("Fire") && (WaitTime >= ReloadTime))
+        if (Input.GetButtonDown("Fire1") && (BulletTimer >= BulletSpawnTime))
         {
-            Instantiate(Bullet, SpawnPoint.position, Quaternion.identity);
-            WaitTime = 0;
+            Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            BulletTimer = 0;
         }
     }
 
-    void Start()
+    private void Start()
     {
-        Init(100);
+        BulletTimer = 0.0f;
+        BulletSpawnTime = 1.5f;
     }
-    void Update()
+
+    private void Update()
     {
         Shoot();
+    }
+
+    private void FixedUpdate()
+    {
+        BulletTimer += Time.fixedDeltaTime;
+
+        if (BulletTimer >= BulletSpawnTime)
+        {
+            BulletTimer += BulletSpawnTime;
+        }
     }
 }

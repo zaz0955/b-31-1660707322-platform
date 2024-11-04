@@ -5,53 +5,41 @@ using UnityEngine;
 
 public class Crocodile : Enemy , IShootable
 {
-     float attackRange;
-
-    public float AttackRange { get { return attackRange; } set { attackRange = value; } }
+    [SerializeField] private float attackRange;
     public Player player;
 
-    [SerializeField] public GameObject Bullet { get; set; }
-    [SerializeField] public Transform SpawnPoint { get; set; }
-
-    [SerializeField] public float ReloadTime { get; set; }
-
-    [SerializeField] public float WaitTime { get; set; }
-
-
-    private void Start()
-    {
-        Init(30);
-    }
+    [field: SerializeField] public GameObject Bullet { get; set; }
+    [field: SerializeField] public Transform BulletSpawnPoint { get; set; }
+    [field: SerializeField] public float BulletSpawnTime { get; set; }
+    [field: SerializeField] public float BulletTimer { get; set; }
     private void Update()
     {
-        WaitTime -= Time.deltaTime;
+        BulletTimer -= Time.deltaTime;
 
         Behaviour();
 
-        if (WaitTime < 0f)
+        if (BulletTimer < 0f)
         {
-            WaitTime = ReloadTime;
+            BulletTimer = BulletSpawnTime;
         }
     }
     public override void Behaviour()
     {
         Vector2 direction = player.transform.position - transform.position;
         float distance = direction.magnitude;
-        
+
         if (distance < attackRange)
         {
             Shoot();
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
-        if (WaitTime >= ReloadTime)
+        if (BulletTimer <= 0)
         {
-            anim.SetTrigger("Shoot");
-            GameObject obj = Instantiate(Bullet, SpawnPoint.position, Quaternion.identity);
-            WaitTime = 0f;
+            Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
         }
-        
+
     }
 }
