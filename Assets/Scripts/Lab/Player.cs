@@ -15,6 +15,10 @@ public class Player : Character, IShootable
         {
             GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
             Banana banana = obj.GetComponent<Banana>();
+<<<<<<< HEAD
+=======
+            banana.Init(10, this);
+>>>>>>> fd487ee8ebcb650c0aa855a62a0961c569afda37
             BulletTimer = 0;
         }
     }

@@ -43,9 +43,13 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
+<<<<<<< HEAD
 
         healthBar.UpdateHealthBar(Health);
 
+=======
+        Debug.Log($"{this.name} took damage {damage}, Remeaning Health {Health}");
+>>>>>>> fd487ee8ebcb650c0aa855a62a0961c569afda37
         IsDead();
     }
     

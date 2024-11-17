@@ -48,10 +48,19 @@ public class Crocodile : Enemy, IShootable
     {
         if (BulletTimer <= 0)
         {
+<<<<<<< HEAD
             GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
             Rock rock = obj.GetComponent<Rock>();
             rock.Init(20, this);
             BulletTimer = 0f;
+=======
+            anim.SetTrigger("Shoot");
+            GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            Rock rock = obj.GetComponent<Rock>();
+            rock.Init(20, this);
+
+            
+>>>>>>> fd487ee8ebcb650c0aa855a62a0961c569afda37
         }
 
     }
