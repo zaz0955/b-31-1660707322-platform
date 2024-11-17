@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
 
-public class Crocodile : Enemy , IShootable
+public class Crocodile : Enemy, IShootable
 {
     [SerializeField] private float attackRange;
     public Player player;
@@ -12,7 +12,17 @@ public class Crocodile : Enemy , IShootable
     [field: SerializeField] public Transform BulletSpawnPoint { get; set; }
     [field: SerializeField] public float BulletSpawnTime { get; set; }
     [field: SerializeField] public float BulletTimer { get; set; }
-    private void Update()
+
+    void Start()
+    {
+        Init(100);
+        BulletTimer = 0.0f;
+        BulletSpawnTime = 0.0f;
+        DamageHit = 30;
+        attackRange = 6.0f;
+        player = GameObject.FindObjectOfType<Player>();
+    }
+    void Update()
     {
         BulletTimer -= Time.deltaTime;
 
@@ -38,7 +48,10 @@ public class Crocodile : Enemy , IShootable
     {
         if (BulletTimer <= 0)
         {
-            Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            Rock rock = obj.GetComponent<Rock>();
+            rock.Init(20, this);
+            BulletTimer = 0f;
         }
 
     }

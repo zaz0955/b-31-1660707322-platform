@@ -13,15 +13,17 @@ public class Player : Character, IShootable
     {
         if (Input.GetButtonDown("Fire1") && (BulletTimer >= BulletSpawnTime))
         {
-            Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            Banana banana = obj.GetComponent<Banana>();
             BulletTimer = 0;
         }
     }
 
     private void Start()
     {
+        Init(100);
         BulletTimer = 0.0f;
-        BulletSpawnTime = 1.5f;
+        BulletSpawnTime = 2.0f;
     }
 
     private void Update()
